@@ -13,12 +13,25 @@
 
     let get_next_node = () => {
         // Use the 'S' in Sponsored as an anchor for the ad
-        let path = "//b[text()='S']"
-        return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+        let path = "//*[text()='S']"
+
+        let node = document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+
+        if (!node) {
+            return null
+        }
+
+        if (node && window.getComputedStyle(node).display == "none") {
+            // This is a legit post. Clear Facebook bullcrap and short circuit
+            node.textContent = ""
+            return null
+        }
+
+        return node
     }
 
     let delete_parent_element = (node) => {
-        let parent = node.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+        let parent = node.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
         parent.parentNode.removeChild(parent)
     }
 
@@ -42,4 +55,3 @@
     window.addEventListener('load', init, false)
 
 })();
-
