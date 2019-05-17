@@ -31,8 +31,16 @@
     }
 
     let delete_parent_element = (node) => {
-        let parent = node.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-        parent.parentNode.removeChild(parent)
+        let step = node
+        let id = node.id
+
+        // Walk up the DOM to find the story element, that's what we'll delete
+        while(!id.match(/^hyperfeed_story_id/g)) {
+          step = step.parentNode
+          id = step.id
+        }
+
+        step.parentNode.removeChild(step)
     }
 
     let run_cleaner = () => {
