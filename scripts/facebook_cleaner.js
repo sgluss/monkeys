@@ -13,7 +13,7 @@
 
     let get_next_node = () => {
         // Use the 'S' in Sponsored as an anchor for the ad
-        let path = "//*[text()='S']"
+        let path = "//a[contains(@aria-label,'Sponsored')]"
 
         let node = document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
 
@@ -35,7 +35,7 @@
         let id = node.id
 
         // Walk up the DOM to find the story element, that's what we'll delete
-        while(!id.match(/^hyperfeed_story_id/g)) {
+        while(step.parentNode.getAttribute("role") !== "feed") {
           step = step.parentNode
           id = step.id
         }
